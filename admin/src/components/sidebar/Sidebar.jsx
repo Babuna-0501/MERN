@@ -4,8 +4,8 @@ import {
   Timeline,
   TrendingUp,
   PermIdentity,
-  AttachMoney,
   BarChart,
+  List,
   MailOutline,
   DynamicFeed,
   ChatBubbleOutline,
@@ -53,14 +53,24 @@ export default function Sidebar() {
                 Movies
               </li>
             </Link>
-            <li className="sidebarListItem">
-              <AttachMoney className="sidebarIcon" />
-              Transactions
-            </li>
-            <li className="sidebarListItem">
-              <BarChart className="sidebarIcon" />
-              Reports
-            </li>
+            <Link to="/lists" className="link">
+              <li className="sidebarListItem">
+                <List className="sidebarIcon" />
+                Lists
+              </li>
+            </Link>
+            <Link to="/newMovie" className="link">
+              <li className="sidebarListItem">
+                <PlayCircleFilledOutlined className="sidebarIcon" />
+                 Видео оруулах
+              </li>
+            </Link>
+            <Link to="/newList" className="link">
+              <li className="sidebarListItem">
+                <BarChart className="sidebarIcon" />
+                Reports
+              </li>
+            </Link>
           </ul>
         </div>
         <div className="sidebarMenu">

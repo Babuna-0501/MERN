@@ -1,8 +1,13 @@
 import React from "react";
+import { useContext, useState } from "react";
 import "./topbar.css";
 import { NotificationsNone, Language, Settings } from "@material-ui/icons";
+import { AuthContext } from "../../context/authContext/AuthContext";
+import { logout } from "../../context/authContext/AuthActions";
+import { Link } from "react-router-dom";
 
 export default function Topbar() {
+  const { dispatch } = useContext(AuthContext);
   return (
     <div className="topbar">
       <div className="topbarWrapper">
@@ -21,7 +26,12 @@ export default function Topbar() {
           <div className="topbarIconContainer">
             <Settings />
           </div>
-          <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" className="topAvatar" />
+          <div className="options">
+              <span>Settings</span>
+              <Link to="/login">
+                <span onClick={() => dispatch(logout())}>Logout</span>
+              </Link>
+            </div>
         </div>
       </div>
     </div>

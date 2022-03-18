@@ -1,24 +1,22 @@
-import "./productList.css";
+import "./movieList.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useContext } from "react";
-import { MovieContext }  from "../../context/movieContext/MovieContext";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { MovieContext } from "../../context/movieContext/MovieContext";
 import { deleteMovie, getMovies } from "../../context/movieContext/apiCalls";
 
-export default function ProductList() {
+export default function MovieList() {
   const { movies, dispatch } = useContext(MovieContext);
 
   useEffect(() => {
     getMovies(dispatch);
   }, [dispatch]);
 
-  console.log(movies);
   const handleDelete = (id) => {
-    deleteMovie(id, dispatch)
+    deleteMovie(id, dispatch);
   };
+
   const columns = [
     { field: "_id", headerName: "ID", width: 90 },
     {
@@ -28,7 +26,7 @@ export default function ProductList() {
       renderCell: (params) => {
         return (
           <div className="productListItem">
-            <img className="productListImg" src={params.row.imgSm} alt="" />
+            <img className="productListImg" src={params.row.img} alt="" />
             {params.row.title}
           </div>
         );
@@ -46,8 +44,9 @@ export default function ProductList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={{ pathname: "/product/" + params.row._id, movie: params.row }}>
-              <button className="productListEdit">Edit</button>
+            <Link
+              to={{ pathname: "/movie/" + params.row._id, movie: params.row }}
+            >
             </Link>
             <DeleteOutline
               className="productListDelete"

@@ -2,33 +2,38 @@ import { InfoOutlined, PlayArrow } from "@material-ui/icons";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./featured.scss";
+import { Link } from "react-router-dom";
 
-export default function Featured({ type }) {
-  const [ content, setContent ] = useState({});
-
-  useEffect(()=> {
+export default function Featured({ type, setGenre }) {
+  const [movie, setMovie] = useState({});
+  useEffect(() => {
     const getRandomContent = async () => {
       try {
-        const res = await axios.get(`/movies/random?type=${type}`, {
+        const res = await axios.get(`/movies/`, {
           headers: {
-            token: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMThiOWNkZWQxYTk5ZjRkYjAyOGFhOCIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0NjM2NzUzOSwiZXhwIjoxNjQ2Nzk5NTM5fQ.Go3N7tawIOAtodMywGlAIU4n18mDfHdMVAs73NSyhsU"
-          }
-        })
-        setContent(res.data[0]);
+            token:
+              "Bearer "+JSON.parse(localStorage.getItem("user")).accessToken,
+          },
+        });
+        setMovie(res.data[0]);
       } catch (err) {
         console.log(err);
       }
-    }
+    };
     getRandomContent();
-  },[type]);
+  }, [type]);
 
-  console.log(content);
+  console.log(movie);
   return (
     <div className="featured">
       {type && (
         <div className="category">
-          <span>{type === "movie" ? "Movies" : "Series"}</span>
-          <select name="genre" id="genre">
+          <span>{type === "movies" ? "Movies" : "Special"}</span>
+          {/* <select
+            name="genre"
+            id="genre"
+            onChange={(e) => setGenre(e.target.value)}
+          >
             <option>Genre</option>
             <option value="adventure">Adventure</option>
             <option value="comedy">Comedy</option>
@@ -43,26 +48,20 @@ export default function Featured({ type }) {
             <option value="animation">Animation</option>
             <option value="drama">Drama</option>
             <option value="documentary">Documentary</option>
-          </select>
+          </select> */}
         </div>
       )}
-      <img
-        src={content.imgSm}
-        alt=""
-      />
+      <img src={movie.img} alt="" />
       <div className="info">
-        <img
-          src={content.imgTitle}
-          alt=""
-        />
-        <span className="desc">
-          {content.desc}
-        </span>
+        <img src={movie.imgTitle} alt="" />
+        <span className="desc">{movie.desc}</span>
         <div className="buttons">
-          <button className="play">
+        <Link to={{ pathname: "/watch", movie: movie }}>
+          <button className="play" onClick={(e) => setMovie(e.target.value)}>
             <PlayArrow />
             <span>Play</span>
           </button>
+          </Link>
           <button className="more">
             <InfoOutlined />
             <span>Info</span>
@@ -72,5 +71,3 @@ export default function Featured({ type }) {
     </div>
   );
 }
-
-
